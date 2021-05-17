@@ -1,0 +1,34 @@
+Konfiguracja
+Długość komórki (kwadratowej): 300m
+
+Konfiguracja symulacji: test_net2 - kilka ulic w Śródmieściu
+Liczba komórek: 77
+Czas symulacji: 3600s
+
+1. luźny ruch
+ - liczba transferów: 6714
+ - czas wykonywania skryptu python: 270s
+ 
+2. Ruch x5 - duży ruch miejski
+ - liczba transefrów: 30762
+ - czas wykonywania skryptu python: 389s
+
+---------------------------------
+Konfiguracja
+Długość boku komoróki: 300m
+Symulacja: net-centrum
+Liczba komórek: 49
+Czas symulacji: 7000s
+
+1. Luźny uch (scale: 1)
+    - max liczba transferów/sekundę: 0,06
+    - rozmiar pliku fsd: 230 MB,
+
+2. Duży ruch (scale: 5)
+    - max liczba transferów/sekundę: 0,23
+
+3. Bardzo duży ruch (scale: 8)
+    - max liczba transferów / sekundę:  
+    
+
+

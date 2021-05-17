@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2021-05-11 23:20:09 by Eclipse SUMO netedit Version 1.9.1
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="/home/chris/Documents/STUDIA/Praca_mgr/V2X/net_s8/osm.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="/home/chris/Documents/STUDIA/Praca_mgr/V2X/net_s8/osm.net.xml"/>
+        <output.street-names value="true"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="false"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.5"/>
+        <rectangular-lane-cut value="false"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="false"/>
+    </pedestrian>
+
+    <netedit>
+        <route-files value="/home/chris/Documents/STUDIA/Praca_mgr/V2X/net_s8/net.rou.xml"/>
+    </netedit>
+
+    <report>
+        <aggregate-warnings value="5"/>
+    </report>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vType id="type1" length="5.00" maxSpeed="100.00" accel="0.8" decel="4.5" sigma="0.5"/>
+
+    <!-- bemowo -> marki -->
+    <flow id="flow_0" begin="0.00" from="178457350" to="262572765" vehsPerHour="3000.00"/>
+
+    <!-- marki -> bemowo -->
+    <flow id="flow_1" begin="0.00" from="262572766" to="178457351" vehsPerHour="3000.00"/>
+    
+    <!-- bemowo -> żerań -->
+    <flow id="flow_2" begin="0.00" from="178457350" to="178860661"  vehsPerHour="1800.00"/>
+
+    
+    <!-- żerań -> bemowo -->
+    <flow id="flow_3" begin="0.00" from="5080499" to="178457351"  vehsPerHour="3000.00"/>
+
+    
+    <!-- centrum -> gdańsk -->
+    <flow id="flow_4" begin="0.00" from="197597320" to="26020081"  vehsPerHour="3000.00"/>
+
+    
+    <!-- gdańsk -> centrum -->
+    <flow id="flow_5" begin="0.00" from="29920364#0" to="307859093"  vehsPerHour="3000.00"/>
+
+
+    <!-- bemowo -> centrum -->
+    <flow id="flow_6" begin="0.00" from="178457350" to="307859093" vehsPerHour="3000.00"/>
+    
+    <!-- bemowo -> gdańsk -->
+    <flow id="flow_7" begin="0.00" from="178457350" to="26020081" vehsPerHour="3000.00"/>
+    
+    <!-- żerań -> gdańsk -->
+    <flow id="flow_8" begin="0.00" from="5080499" to="26020081" vehsPerHour="3000.00"/>
+    
+    <!-- żerań -> centrum -->
+    <flow id="flow_9" begin="0.00" from="5080499" to="307859093" vehsPerHour="3000.00"/>
+    
+    <!-- centrum -> żerań -->
+    <flow id="flow_10" begin="0.00" from="197597320" to="178860661" vehsPerHour="3000.00"/>
+    
+    <!-- centrum -> bemowo -->
+    <flow id="flow_11" begin="0.00" from="197597320" to="178457351" vehsPerHour="3000.00"/>
+   
+   <!-- gdańsk -> bemowo -->
+    <flow id="flow_12" begin="0.00" from="29920364#0" to="178457351" vehsPerHour="3000.00"/>
+    
+    <!-- gdańsk -> żerań -->
+    <flow id="flow_13" begin="0.00" from="29920364#0" to="178860661" vehsPerHour="3000.00"/>
+    
+    
+</routes>
