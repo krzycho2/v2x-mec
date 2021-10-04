@@ -1,0 +1,36 @@
+transfer: samochód znajduje się na granicy komórek
+- dane początkowe: słownik: {czas: lista samochodów i ich pozycji}
+- wydobycie informacji o maksymalnych współrzędnych i utworzenie komórek dla obszaru
+- słownik zdarzeń: {czas: car_location} // car_location: class(car_id, location, cell)
+- lista: pary zdarzeń, w których w t1 samochód jest w komórce A, a w t2 w komórce B
+- zliczenie dla każdej komórki zdarzeń transferów - dict: {cell_id: liczba_transferów}
+- dict: {cell_id: liczba_transferów}
+
+Struktury danych:
+Cell(cell_id, cell_area)
+cells: list<Cell>
+CarLocation(car_id, location, cell_id)
+
+Pseudokod:
+events = get_location_events(fcd_file_path)
+max_x, max_y = find_sim_boundary(events)
+cells = create_square_cells(max_x, max_y, cell_length)
+cell_transfers = find_cell_transfers(events, cells)
+transfers_count = count_cell_transfers(cell_transfers)
+
+
+----------
+Wersja 2
+- parsowanie z fcd -> lista obiektów CarInfo oraz granice obszaru
+- utworzenie komórek dla obszaru
+- dla każdego samochodu (CarInfo): dla każdej i-tej pozycji w czasie, sprawdzić, czy pozycja i+1 nie znajduje się  w kolejnej komórce
+- zliczenie transferów dla każdej komórki
+
+(car_infos, sim_boundary) = parse_fcd(fcd_file_path)
+cells = create_square_cells(max_x, max_y, cell_length)
+cells_transfers = find_cell_transfers(car_infos)
+transfers_count = count_cell_transfers(cell_transfers)
+
+Struktury danych
+CarInfo(car_id: str, time_locations: list<TimeLocation>)
+TimeLocation(time, x, y, cell)

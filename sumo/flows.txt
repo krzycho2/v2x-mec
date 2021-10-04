@@ -1,0 +1,15 @@
+0: bemowo -> marki
+1: marki -> bemowo
+2: bemowo -> żerań
+3: żerań -> bemowo
+4: centrum -> gdańsk
+5: gdańsk -> centrum
+6: bemowo -> centrum
+7: bemowo -> gdańsk
+8: żerań -> gdańsk
+9: żerań -> centrum
+10: centrum -> żerań
+11: centrum -> bemowo
+12: gdańsk -> bemowo
+13: gdańsk -> żerań
+
