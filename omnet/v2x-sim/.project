@@ -3,6 +3,8 @@
 	<name>v2x-sim</name>
 	<comment></comment>
 	<projects>
+		<project>inet</project>
+		<project>simu5G</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

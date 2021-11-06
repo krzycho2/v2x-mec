@@ -1,0 +1,1 @@
+-O3 -DNDEBUG=1   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_MPI -DWITH_QTENV -DWITH_PARSIM -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/home/chris/Software/omnetpp-5.6.2/include -I/home/chris/Software/omnetpp-5.6.2/samples/app-data/inet4/src -I/home/chris/Software/omnetpp-6.0pre11/include
