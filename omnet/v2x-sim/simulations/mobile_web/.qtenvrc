@@ -1,20 +1,4 @@
 [Inspector-0]
-classname=HttpBrowser
-fullscreen=false
-geom=@Rect(3252 685 1037 300)
-id=@Variant(\0\0\0\x81\0\0\0\0\0\0\0@)
-object=MobileHttpNetwork.ue.app[0]
-type=3
-
-[Inspector-1]
-classname=HttpServer
-fullscreen=false
-geom=@Rect(3322 231 846 300)
-id=@Variant(\0\0\0\x81\0\0\0\0\0\0\0\x1f)
-object=MobileHttpNetwork.server.app[0]
-type=3
-
-[Inspector-2]
 classname=Upf
 fullscreen=false
 geom=@Rect(2604 715 700 300)
@@ -22,7 +6,7 @@ id=@Variant(\0\0\0\x81\0\0\0\0\0\0\0\f)
 object=MobileHttpNetwork.upf
 type=3
 
-[Inspector-3]
+[Inspector-1]
 classname=StandardHost
 fullscreen=false
 geom=@Rect(2724 968 949 300)
@@ -30,7 +14,7 @@ id=@Variant(\0\0\0\x81\0\0\0\0\0\0\0\x5)
 object=MobileHttpNetwork.server
 type=3
 
-[Inspector-4]
+[Inspector-2]
 classname=NRUe
 fullscreen=false
 geom=@Rect(3572 481 700 808)

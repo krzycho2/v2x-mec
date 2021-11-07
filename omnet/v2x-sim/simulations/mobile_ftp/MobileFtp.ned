@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package mobile_tcp;
+package mobile_ftp;
 
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.networklayer.ipv4.RoutingTableRecorder;
@@ -28,7 +28,7 @@ import simu5g.nodes.NR.NRUe;
 import simu5g.nodes.backgroundCell.BackgroundCell;
 import simu5g.world.radio.LteChannelControl;
 
-network MobileTcpNetwork
+network MobileFtpNetwork
 {
 	submodules:
 	    channelControl: LteChannelControl {
