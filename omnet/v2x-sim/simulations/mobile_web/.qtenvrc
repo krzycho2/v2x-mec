@@ -9,7 +9,7 @@ type=3
 [Inspector-1]
 classname=HttpServer
 fullscreen=false
-geom=@Rect(2359 690 846 300)
+geom=@Rect(3322 231 846 300)
 id=@Variant(\0\0\0\x81\0\0\0\0\0\0\0\x1f)
 object=MobileHttpNetwork.server.app[0]
 type=3

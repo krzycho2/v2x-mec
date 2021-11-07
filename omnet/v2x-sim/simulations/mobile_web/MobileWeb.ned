@@ -17,7 +17,6 @@ import simu5g.common.binder.Binder;
 import simu5g.common.carrierAggregation.CarrierAggregation;
 import inet.networklayer.ipv4.RoutingTableRecorder;
 
-
 network MobileHttpNetwork
 {
     submodules:
@@ -57,6 +56,8 @@ network MobileHttpNetwork
 
             @display("p=378,126;is=vl");
         }
+        
+
     connections:
         server.pppg++ <--> Eth10G <--> router.pppg++;
         router.pppg++ <--> Eth10G <--> upf.filterGate;

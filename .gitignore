@@ -139,3 +139,4 @@ cython_debug/
 sumo/outputs
 
 .vscode/launch.json
+omnet/v2x-sim/simulations/mobile_tcp/results/.*
