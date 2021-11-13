@@ -30,6 +30,8 @@ import simu5g.world.radio.LteChannelControl;
 
 network MobileFtpNetwork
 {
+    parameters:
+        int numUe = default(1);
 	submodules:
 	    channelControl: LteChannelControl {
             @display("p=50,25;is=s");
@@ -61,7 +63,7 @@ network MobileFtpNetwork
         bgCell: BackgroundCell {
             @display("p=416,277;is=vl");
         }
-        ue: NRUe {
+        ue[numUe]: NRUe {
             @display("p=628.09375,411.68124");
         }
         

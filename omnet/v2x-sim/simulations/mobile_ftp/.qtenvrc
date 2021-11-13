@@ -1,3 +1,19 @@
+[Inspector-0]
+classname=StandardHost
+fullscreen=false
+geom=@Rect(3393 838 949 300)
+id=@Variant(\0\0\0\x81\0\0\0\0\0\0\0\a)
+object=MobileFtpNetwork.server
+type=3
+
+[Inspector-1]
+classname=NRUe
+fullscreen=false
+geom=@Rect(3478 289 994 453)
+id=@Variant(\0\0\0\x81\0\0\0\0\0\0\0\f)
+object=MobileFtpNetwork.ue[0]
+type=3
+
 [RunModeProfiles]
 fast-max-animation-speed=nan
 fast-max-playback-speed=1e+06
@@ -8,4 +24,4 @@ run-max-animation-speed=nan
 run-max-playback-speed=100
 run-min-animation-speed=nan
 run-min-playback-speed=0.01
-run-playback-speed=1
+run-playback-speed=100
