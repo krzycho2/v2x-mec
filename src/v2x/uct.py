@@ -1,20 +1,38 @@
 from typing import List
 from cellarea import Cell, create_cells, get_avg_arrival_freq, get_cell_by_location, get_max_arrival_freq, get_min_arrival_freq, get_sum_arrival_count
 from models import TimeLocation
+from v2x.cars import CarInfo
+from v2x.mec import Mec
 from parsefcd import parse_fcd
 
 DEFAULT_CELL_LENGTHS = [300, 600, 900]
 
-def calculate_uct_stats(fcd_file_path: str, cell_lengths = DEFAULT_CELL_LENGTHS):
-    car_infos, sim_boundary = parse_fcd(fcd_file_path) # car_infos: dicts {car_id: time_locations}
+class Uct:
+    mec_id_pair: tuple
+    time: float
     
-    for cell_length in cell_lengths:
-        cells_per_mec = (cell_length / 300)**2
-        cells = create_cells(cell_length, sim_boundary.min_x, sim_boundary.min_y, sim_boundary.max_x, sim_boundary.max_y)
-        transfers = calculate_transfers(car_infos, cells)
-        cells = allocate_transfers_to_cells(transfers, cells)
+    def __init__(self, mec_id_pair: tuple, time: float) -> None:
+        self.mec_id_pair = mec_id_pair
+        self.time = time
+
+def calculate_uct_stats(car_time_locations: List[CarInfo], mecs: List[Mec]) -> dict:
+    """Finds UCTs and calculates statistics for them.
+
+    Returns:
+        dict: UCT statistics TODO
+    """
+    
+# ----------- OLD CODE -----------------------------------------------------------
+# def calculate_uct_stats(fcd_file_path: str, cell_lengths = DEFAULT_CELL_LENGTHS):
+#     car_infos, sim_boundary = parse_fcd(fcd_file_path) # car_infos: dicts {car_id: time_locations}
+    
+#     for cell_length in cell_lengths:
+#         cells_per_mec = (cell_length / 300)**2
+#         cells = create_cells(cell_length, sim_boundary.min_x, sim_boundary.min_y, sim_boundary.max_x, sim_boundary.max_y)
+#         transfers = calculate_transfers(car_infos, cells)
+#         cells = allocate_transfers_to_cells(transfers, cells)
         
-        print_stats(cells, cell_length, cells_per_mec)
+#         print_stats(cells, cell_length, cells_per_mec)
         
 def calculate_transfers(car_infos: dict, cells: list):
     transfers = [] # list of cell_id 
