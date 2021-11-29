@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2021-05-17 22:52:51 by Eclipse SUMO sumo Version 1.9.1
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="net_s8/osm.net.xml"/>
+        <route-files value="net_s8/net.rou.xml"/>
+        <additional-files value="net_s8/osm.poly.xml"/>
+    </input>
+
+    <output>
+        <fcd-output value="outputs/net_s8.xml"/>
+        <fcd-output.attributes value="id,x,y"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="3600"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <ignore-route-errors value="true"/>
+    </processing>
+
+    <routing>
+        <device.rerouting.adaptation-steps value="18"/>
+        <device.rerouting.adaptation-interval value="10"/>
+    </routing>
+
+    <report>
+        <verbose value="true"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <gui_only>
+        <gui-settings-file value="net_s8/osm.view.xml"/>
+        <tracker-interval value="0.1"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<fcd-export xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/fcd_file.xsd">
+    <timestep time="0.00">
+        <vehicle id="flow_0.0" x="605.79" y="1142.59"/>
+        <vehicle id="flow_1.0" x="1911.72" y="2154.71"/>
+        <vehicle id="flow_3.0" x="1907.24" y="2163.97"/>
+        <vehicle id="flow_4.0" x="1611.49" y="1001.43"/>
+        <vehicle id="flow_5.0" x="427.06" y="2388.08"/>
+    </timestep>
+    <timestep time="0.10">
+        <vehicle id="flow_0.0" x="605.81" y="1142.61"/>
+        <vehicle id="flow_1.0" x="1911.70" y="2154.69"/>
+        <vehicle id="flow_3.0" x="1907.22" y="2163.95"/>
+        <vehicle id="flow_4.0" x="1611.48" y="1001.45"/>
+        <vehicle id="flow_5.0" x="427.08" y="2388.07"/>
+    </timestep>
+    <timestep time="0.20">
+        <vehicle id="flow_0.0" x="605.85" y="1142.64"/>
+        <vehicle id="flow_1.0" x="1911.66" y="2154.66"/>
+        <vehicle id="flow_3.0" x="1907.18" y="2163.92"/>
+        <vehicle id="flow_4.0" x="1611.47" y="1001.50"/>
+        <vehicle id="flow_5.0" x="427.12" y="2388.04"/>
+    </timestep>
+    <timestep time="0.30">
+        <vehicle id="flow_0.0" x="605.91" y="1142.68"/>
+        <vehicle id="flow_1.0" x="1911.59" y="2154.62"/>
+        <vehicle id="flow_3.0" x="1907.11" y="2163.88"/>
+        <vehicle id="flow_4.0" x="1611.44" y="1001.57"/>
+        <vehicle id="flow_5.0" x="427.18" y="2388.00"/>
+    </timestep>
+    <timestep time="0.40">
+        <vehicle id="flow_0.0" x="605.99" y="1142.75"/>
+        <vehicle id="flow_1.0" x="1911.51" y="2154.56"/>
+        <vehicle id="flow_3.0" x="1907.03" y="2163.83"/>
+        <vehicle id="flow_4.0" x="1611.41" y="1001.67"/>
+        <vehicle id="flow_5.0" x="427.27" y="2387.94"/>
+    </timestep>
+    <timestep time="0.50">
+        <vehicle id="flow_0.0" x="606.09" y="1142.82"/>
+        <vehicle id="flow_1.0" x="1911.40" y="2154.49"/>
+        <vehicle id="flow_3.0" x="1906.93" y="2163.76"/>
+        <vehicle id="flow_4.0" x="1611.37" y="1001.78"/>
+        <vehicle id="flow_5.0" x="427.37" y="2387.87"/>
+    </timestep>
+</fcd-export>

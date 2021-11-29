@@ -1,15 +1,8 @@
 from typing import List
-from map_time_models import Point
 
-class eNodeB:
-    Id: int
-    location: Point
-    boundary_points: List[Point]
-    
-    def __init__(self, id: int, location: Point, boundary_points: List[Point]) -> None:
-        self.Id = id
-        self.location = location
-        self.boundary_points = boundary_points
+from models import eNodeB
+
+
 
 def extract_eNodeBs_and_create_ranges(sumo_net_file: str, eNodeBs_locations_file: str) -> List[eNodeB]:
     """
