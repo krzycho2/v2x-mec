@@ -1,10 +1,11 @@
 import unittest
 
-from v2x.cars import extract_car_time_locations_from_fcd_file
+from src.v2x.cars import extract_car_time_locations_from_fcd_file
+
 
 class ExtractCarTimeLocationsTests(unittest.TestCase):
     def test1(self):
-        fcd_file = 'v2x/test-fcd.xml'
+        fcd_file = '../v2x/test-fcd.xml'
         expected_cars = 5
         expected_timesteps = 6
         expected_time_locations = 6
@@ -18,3 +19,7 @@ class ExtractCarTimeLocationsTests(unittest.TestCase):
         self.assertEqual(expected_timesteps, len(timesteps))
         
         self.assert_(all(map(lambda c: len(c.time_locations) == expected_time_locations, cars)))
+
+
+if __name__ == '__main__':
+    unittest.main()

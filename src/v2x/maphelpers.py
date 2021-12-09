@@ -26,31 +26,6 @@ class MapSquare:
         """
         self.eNodeB = min(eNodeBs, key=lambda enb: get_distance_on_map(self.center_x, self.center_y, enb.x, enb.y))
     
-def read_eNodeBs_from_file(eNodeBs_coords_file: str):
-    eNodeBs_coords = read_coords_file_and_project(eNodeBs_coords_file)
-    eNodeBs = []
-    for index, bts in enumerate(eNodeBs_coords):
-        eNodeBs.append(eNodeB(index, bts['x'], bts['y']))
-        
-    return eNodeBs
-
-def read_boundary_box_coords(map_bbox_file: str):
-    with open(map_bbox_file, 'r') as f:
-        bbox_coords = json.load(f)
-
-    required_keys = ['x0', 'x1', 'y0', 'y1']
-    assert(all(k in bbox_coords for k in required_keys))
-    return bbox_coords
-
-
-def create_map_squares(map_bbox_file: str, square_size = 100):
-    boundary_coords = read_boundary_box_coords(map_bbox_file)
-    squares = create_squares(boundary_coords['x0'], boundary_coords['x1'], boundary_coords['y0'], boundary_coords['y1'], square_size)
-    return squares
-
-def assign_eNodeBs_to_map_squares(eNodeBs: List[eNodeB], MapSquares: List[MapSquare]):
-    for MapSquare in MapSquares:
-        MapSquare.assign_eNb(eNodeBs)
     
 def create_squares(min_x, max_x, min_y, max_y, size) -> List[MapSquare]:
     delta_x = max_x - min_x

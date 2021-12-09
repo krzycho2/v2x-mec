@@ -24,7 +24,6 @@ def extract_car_time_locations_from_fcd_file(fcd_file: str) -> List[CarInfo]:
                 for raw_car_info in cars_in_time:
                     add_time_location_to_car(timestep, cars, raw_car_info)
                     
-
             else:
                 add_time_location_to_car(cars_in_time)
                 

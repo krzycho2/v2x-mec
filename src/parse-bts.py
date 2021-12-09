@@ -1,4 +1,4 @@
-from drawing import draw_eNodeBs_map
+from helpers.drawing import draw_eNodeBs_map
 from maphelpers import  assign_eNodeBs_to_map_squares, create_map_squares, read_eNodeBs_from_file
 
 
