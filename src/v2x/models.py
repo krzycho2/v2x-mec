@@ -28,9 +28,9 @@ class BoundaryBox:
         self.y_min = y_min
         self.y_max = y_max
 
-    def get_all_vertexes(self) -> list:
+    def get_all_vertices(self) -> list:
         return [Position2d(self.x_min, self.y_min), Position2d(self.x_max, self.y_min),
-                Position2d(self.y_max, self.x_min), Position2d(self.x_max, self.y_max)]
+                Position2d(self.x_max, self.y_max), Position2d(self.x_min, self.y_max)]
 
     def get_lines(self) -> list:
         return [[Position2d(self.x_min, self.y_min), Position2d(self.x_max, self.y_min)],  # lower

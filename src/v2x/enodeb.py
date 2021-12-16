@@ -7,6 +7,8 @@ from src.helpers.map_helpers import project_coords, create_boundary, create_boun
     find_lines_crossing, is_in_bbox
 from src.helpers.sumo_helpers import extract_projection_details_from_net_file
 
+from shapely.geometry import MultiPoint, Point, Polygon as Poly, box
+from shapely.ops import voronoi_diagram
 
 def extract_eNodeBs_and_create_ranges(sumo_net_file: str, eNodeB_mec_conf_file: str) -> List[eNodeB]:
     """
@@ -24,14 +26,14 @@ def extract_eNodeBs_and_create_ranges(sumo_net_file: str, eNodeB_mec_conf_file: 
     """
     
     net_offset, conv_bbox, orig_bbox, proj_params = extract_projection_details_from_net_file(sumo_net_file)
-    eNodeBs = read_eNodeBs_from_file(eNodeB_mec_conf_file)
+    eNodeBs = read_eNodeBs_from_config(eNodeB_mec_conf_file)
     project_and_add_net_offset_for_eNodeBs(eNodeBs, net_offset, proj_params)
-    assign_boundaries_efficient(eNodeBs, conv_bbox)
+    assign_boundaries(eNodeBs, conv_bbox)
 
     return eNodeBs
 
 
-def read_eNodeBs_from_file(eNodeB_mec_conf_file: str) -> List[eNodeB]:
+def read_eNodeBs_from_config(eNodeB_mec_conf_file: str) -> List[eNodeB]:
     """Reads eNodeB_MEC configuration file and returns list of eNodeB objects. XYs are spatial coordinates.
 
     Args:
@@ -61,36 +63,22 @@ def project_and_add_net_offset_for_eNodeBs(eNodeBs: List[eNodeB], net_offset: Li
         eNB.location = Position2d(x, y)
 
 
-def assign_boundaries_naive(eNodeBs: List[eNodeB], map_boundary_box: List[float]):
-    """
-    1. Create grid of points in map area
+def assign_boundaries(eNodeBs: List[eNodeB], map_bbox: BoundaryBox):
+    eNodeB_points = list(map(lambda enb: Point(enb.location.x, enb.location.y), eNodeBs))  # cast to shapely Point
+    eNodeBs_multi_point = MultiPoint(eNodeB_points)
 
-    Args:
-        eNodeBs (List[eNodeB]): [description]
-    """
-    map_bbox = BoundaryBox(map_boundary_box)
+    polygons = voronoi_diagram(eNodeBs_multi_point)
+    bbox_polygon = box(map_bbox.x_min, map_bbox.y_min, map_bbox.x_max, map_bbox.y_max)
 
+    for poly in polygons:
+        for enb in eNodeBs:
+            enb_point = Point(enb.location.x, enb.location.y)
+            if enb_point.within(poly):
+                bounded_poly = poly.intersection(bbox_polygon)
+                enb.boundary_points = list(bounded_poly.boundary.coords)  # 'set' removes duplicated points
 
-def assign_boundaries_efficient(eNodeBs: List[eNodeB], map_boundary_box: BoundaryBox):
-    lines = []
-    for enb1, enb2 in itertools.combinations(eNodeBs, 2):
-        boundary_line_vertexes = create_boundary_line_end_points(enb1.location, enb2.location, map_boundary_box)
-        lines.append(boundary_line_vertexes)
+                if enb.boundary_points[0] == enb.boundary_points[-1]:
+                    _ = enb.boundary_points.pop()
 
-    lines.extend(map_boundary_box.get_lines())
+    assert(all(map(lambda enb: len(enb.boundary_points) != 0 or enb.boundary_points is not None, eNodeBs)))
 
-    for line1, line2 in itertools.combinations(lines, 2):
-        cross_point = find_lines_crossing(line1, line2)
-        if is_in_bbox(cross_point, map_boundary_box):
-            distances_to_eNodeBs = map(lambda enb: {'eNB': enb, 'distance': get_distance(cross_point, enb.location)},
-                                       eNodeBs)
-            sorted_distances = sorted(distances_to_eNodeBs, key=lambda d: d['distance'])
-
-            # First two distances should be equal because the line represents points of equidistant for (at least)
-            # two points
-            acceptable_diff = 1  # meters
-            diff = 0
-            for i in range(1, len(sorted_distances)):
-                if sorted_distances[i]['distance'] - sorted_distances[0]['distance'] < acceptable_diff:
-                    enb = sorted_distances[i]['enb']
-                    enb.boundary_points.append(cross_point)
