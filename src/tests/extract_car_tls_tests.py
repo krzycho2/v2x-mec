@@ -18,7 +18,7 @@ class ExtractCarTimeLocationsTests(unittest.TestCase):
         timesteps = list(map(lambda ts: ts.time, cars[0].time_locations))
         self.assertEqual(expected_timesteps, len(timesteps))
         
-        self.assert_(all(map(lambda c: len(c.time_locations) == expected_time_locations, cars)))
+        self.assertTrue(all(map(lambda c: len(c.time_locations) == expected_time_locations, cars)))
 
 
 if __name__ == '__main__':

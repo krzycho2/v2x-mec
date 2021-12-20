@@ -1,7 +1,7 @@
 import unittest
 
 from src.helpers.map_helpers import find_equidistant_y
-from src.v2x.models import Position2d
+from src.models.map_time_models import Position2d
 
 
 class MapHelpersTests(unittest.TestCase):

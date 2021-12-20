@@ -1,6 +1,8 @@
 from typing import List
-from .models import CarInfo, TimeLocation
 import xmltodict
+
+from src.models.map_time_models import CarInfo, TimeLocation
+
 
 def extract_car_time_locations_from_fcd_file(fcd_file: str) -> List[CarInfo]:
     """Reads fcd SUMO output file and maps it into car-info objects.
@@ -29,6 +31,7 @@ def extract_car_time_locations_from_fcd_file(fcd_file: str) -> List[CarInfo]:
                 
     return cars
 
+
 def add_time_location_to_car(timestep: float, cars, raw_car_info: dict):
     car_id = raw_car_info['@id']
     pos_x = float(raw_car_info['@x'])
@@ -46,4 +49,3 @@ def add_time_location_to_car(timestep: float, cars, raw_car_info: dict):
         cars.append(car)
     
     car.time_locations.append(time_location)
-    

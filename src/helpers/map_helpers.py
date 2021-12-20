@@ -4,7 +4,7 @@ from typing import List
 
 from pyproj import Proj
 import xmltodict
-from ..v2x.models import BoundaryBox, Position2d
+from src.models.map_time_models import Position2d, BoundaryBox
 
 POINT_GRID_DELTA = Position2d(10, 10)
 

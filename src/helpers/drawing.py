@@ -2,16 +2,45 @@ from typing import List
 
 import numpy as np
 from matplotlib import pyplot as plt
-from matplotlib.patches import Polygon
+from matplotlib.patches import Polygon as Poly
 
 from src.helpers.sumo_helpers import extract_projection_details_from_net_file
 from src.v2x.enodeb import read_eNodeBs_from_config, project_and_add_net_offset_for_eNodeBs, assign_boundaries
+from src.v2x.mec import extract_mecs_with_ranges
 
+
+def show_mec_boundaries():
+    enbs, bbox = get_enbs_bbox()
+    mecs = extract_mecs_with_ranges(enbs)
+
+    bbox_points = list(map(lambda p: (p.x, p.y), bbox.get_all_vertices()))
+    bbox_poly = Poly(bbox_points, fill=False)
+
+    colors = []
+    [colors.append(np.random.rand(3, )) for _ in range(len(enbs))]
+
+    fig, ax = plt.subplots()
+
+    for index, enb in enumerate(enbs):
+        poly = Poly(enb.boundary_points, fill=True, color=colors[index])
+        ax.add_patch(poly)
+
+        ax.plot(enb.location.x, enb.location.y, 'o', label=enb.Id, color=colors[index], markeredgecolor='black')
+
+    ax.add_patch(bbox_poly)
+
+    for mec in mecs:
+        mec_poly = Poly(mec.boundary_points, fill=False, edgecolor='black')
+        ax.add_patch(mec_poly)
+
+    plt.axis('scaled')
+    plt.legend()
+    plt.show()
 
 def show_enb_boundaries():
     enbs, bbox = get_enbs_bbox()
     bbox_points = list(map(lambda p: (p.x, p.y), bbox.get_all_vertices()))
-    bbox_poly = Polygon(bbox_points, fill=False)
+    bbox_poly = Poly(bbox_points, fill=False)
 
     colors = []
     [colors.append(np.random.rand(3,)) for _ in range(len(enbs))]
@@ -19,7 +48,7 @@ def show_enb_boundaries():
     fig, ax = plt.subplots()
 
     for index, enb in enumerate(enbs):
-        poly = Polygon(enb.boundary_points, fill=True, color=colors[index])
+        poly = Poly(enb.boundary_points, fill=True, color=colors[index])
         ax.add_patch(poly)
 
         ax.plot(enb.location.x, enb.location.y, 'o', label=enb.Id, color=colors[index], markeredgecolor='black')
@@ -44,7 +73,7 @@ def get_enbs_bbox():
 
 def show_polygon(points: List):
 
-    poly = Polygon(points, fill=True)
+    poly = Poly(points, fill=True)
     fig, ax = plt.subplots()
     ax.add_patch(poly)
 
@@ -61,7 +90,7 @@ def show_polygon(points: List):
 def show_polygons(polygons: List):
     fig, ax = plt.subplots()
     for polygon in polygons:
-        poly = Polygon(np.array(polygon), fill=False)
+        poly = Poly(np.array(polygon), fill=False)
         ax.add_patch(poly)
 
     plt.show()

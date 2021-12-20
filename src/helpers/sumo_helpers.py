@@ -1,6 +1,6 @@
 import xmltodict
 
-from src.v2x.models import BoundaryBox
+from src.models.map_time_models import BoundaryBox
 
 
 def extract_projection_details_from_net_file(sumo_net_file: str) -> tuple:

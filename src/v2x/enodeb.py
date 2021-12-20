@@ -2,7 +2,8 @@ import itertools
 from typing import List
 import json
 
-from src.v2x.models import BoundaryBox, Position2d, eNodeB
+from src.models.v2x_models import eNodeB
+from src.models.map_time_models import Position2d, BoundaryBox
 from src.helpers.map_helpers import project_coords, create_boundary, create_boundary_line_end_points, get_distance, \
     find_lines_crossing, is_in_bbox
 from src.helpers.sumo_helpers import extract_projection_details_from_net_file
@@ -75,7 +76,7 @@ def assign_boundaries(eNodeBs: List[eNodeB], map_bbox: BoundaryBox):
             enb_point = Point(enb.location.x, enb.location.y)
             if enb_point.within(poly):
                 bounded_poly = poly.intersection(bbox_polygon)
-                enb.boundary_points = list(bounded_poly.boundary.coords)  # 'set' removes duplicated points
+                enb.boundary_points = list(bounded_poly.boundary.coords)
 
                 if enb.boundary_points[0] == enb.boundary_points[-1]:
                     _ = enb.boundary_points.pop()

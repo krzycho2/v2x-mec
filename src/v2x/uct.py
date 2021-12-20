@@ -1,6 +1,6 @@
 from typing import List
 from cellarea import Cell, create_cells, get_avg_arrival_freq, get_cell_by_location, get_max_arrival_freq, get_min_arrival_freq, get_sum_arrival_count
-from models import TimeLocation
+from src.models.map_time_models import TimeLocation
 from v2x.cars import CarInfo
 from v2x.mec import Mec
 from parsefcd import parse_fcd
