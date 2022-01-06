@@ -25,7 +25,9 @@ def extract_eNodeBs_and_create_ranges(sumo_net_file: str, eNodeB_mec_conf_file: 
     Returns:
         List[eNodeB]: list od eNodeBs ready to use, with shifted coordinates
     """
-    
+
+    print('Extracting eNodeBs...')
+
     net_offset, conv_bbox, orig_bbox, proj_params = extract_projection_details_from_net_file(sumo_net_file)
     eNodeBs = read_eNodeBs_from_config(eNodeB_mec_conf_file)
     project_and_add_net_offset_for_eNodeBs(eNodeBs, net_offset, proj_params)

@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 from typing import List
-from shapely.geometry import Polygon
+from shapely.geometry import Polygon, Point
 from shapely.ops import unary_union
 
+from src.models.map_time_models import Position2d
 from src.models.v2x_models import eNodeB, Mec
 
 
@@ -14,6 +17,8 @@ def extract_mecs_with_ranges(eNodeBs: List[eNodeB]) -> List[Mec]:
     Returns:
         List[Mec]: List of created MECs.
     """
+
+    print('Extracting MECs...')
     mecs: List[Mec] = []
     [mecs.append(Mec(mec_id)) for mec_id in set(map(lambda enb: enb.assigned_mec_id, eNodeBs))]
 
@@ -33,3 +38,14 @@ def extract_mecs_with_ranges(eNodeBs: List[eNodeB]) -> List[Mec]:
             _ = mec.boundary_points.pop()
 
     return mecs
+
+
+def get_mec_by_location(location: Position2d, mecs: List[Mec]) -> Mec | None:
+
+    def mec_contains(mec: Mec, location: Position2d):
+        boundary_points_list = list(map(lambda p: (p.x, p.y), mec.boundary_points))
+
+        poly = Polygon(boundary_points_list)
+        return poly.contains(Point(location.x, location.y))
+
+    return next(filter(lambda mec: mec_contains(mec, location), mecs), None)
