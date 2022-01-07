@@ -6,7 +6,7 @@ from src.models.v2x_models import eNodeB
 from src.models.map_time_models import Position2d, BoundaryBox
 from src.helpers.map_helpers import project_coords, create_boundary, create_boundary_line_end_points, get_distance, \
     find_lines_crossing, is_in_bbox
-from src.helpers.sumo_helpers import extract_projection_details_from_net_file
+from src.sumo.net_file_parse import extract_projection_details_from_net_file
 
 from shapely.geometry import MultiPoint, Point, Polygon as Poly, box
 from shapely.ops import voronoi_diagram

@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.patches import Polygon as Poly
 
-from src.helpers.sumo_helpers import extract_projection_details_from_net_file
+from src.sumo.net_file_parse import extract_projection_details_from_net_file
 from src.v2x.enodeb import read_eNodeBs_from_config, project_and_add_net_offset_for_eNodeBs, assign_boundaries
 from src.v2x.mec import extract_mecs_with_ranges
 

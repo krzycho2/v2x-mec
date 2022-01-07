@@ -15,34 +15,34 @@ def extract_projection_details_from_net_file(sumo_net_file: str) -> tuple:
         xml_data = xmltodict.parse(f.read())
 
     location = xml_data['net']['location'] # list
-    
+
     net_offset_raw = location['@netOffset'].split(',')
     net_offset = []
     [net_offset.append(float(x)) for x in net_offset_raw]
-    
+
     conv_boundary_raw = location['@convBoundary'].split(',')
     conv_boundary = []
     [conv_boundary.append(float(x)) for x in conv_boundary_raw]
     conv_bbox = BoundaryBox(*conv_boundary)
-    
+
     orig_boundary_raw = location['@origBoundary'].split(',')
     orig_boundary = []
     [orig_boundary.append(float(x)) for x in orig_boundary_raw]
     orig_bbox = BoundaryBox(*orig_boundary)
-    
+
     proj_parameters_raw = location['@projParameter'].split(' ')
     proj_params = {}
     for proj_param in proj_parameters_raw:
         kv = proj_param.split('=')
         if len(kv) != 2:
             continue
-        
+
         key, value = kv
         key = key[1:]
         if key == 'zone':
             proj_params[key] = int(value)
-        
+
         else:
             proj_params[key] = value
-        
+
     return net_offset, conv_bbox, orig_bbox, proj_params

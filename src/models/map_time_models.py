@@ -4,16 +4,10 @@ from typing import List
 class Position2d:
     x: float
     y: float
-    grid_density_x: float
-    grid_density_y: float
 
-    def __init__(self, x: float, y: float) -> None:
-        self.x = x
-        self.y = y
-
-        self.grid_density_x = 50
-        self.grid_density_y = 50
-
+    def __init__(self, x, y) -> None:
+        self.x = float(x)
+        self.y = float(y)
 
 class BoundaryBox:
     x_min: float
@@ -42,8 +36,8 @@ class TimeLocation:
     time: float
     location: Position2d
 
-    def __init__(self, time: float, x: float, y: float) -> None:
-        self.time = time
+    def __init__(self, time, x, y) -> None:
+        self.time = float(time)
         self.location = Position2d(x, y)
 
 
