@@ -1,0 +1,11 @@
+DEFAULT_CONFIG_CONFIG_KEY = 'default_config'
+eNB_ID_CONFIG_KEY = 'eNB_id'
+eNB_LONGITUDE_CONFIG_KEY = 'longitude'
+eNB_LATITUDE_CONFIG_KEY = 'latitude'
+eNB_MEC_ID_CONFIG_KEY = 'mec_id'
+RUNS_CONFIG_KEY = 'runs'
+RUN_ID_CONFIG_KEY = 'run_id'
+RUN_CONFIG_CONFIG_KEY = 'run_config'
+MEC_INCLUDED_eNodeB_IDS = 'included_eNodeB_ids'
+
+DEFAULT_LOGGER_NAME = 'logger'

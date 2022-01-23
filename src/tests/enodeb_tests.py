@@ -1,7 +1,7 @@
 import unittest
 
 from src.sumo.net_file_parse import extract_projection_details_from_net_file
-from src.v2x.enodeb import read_eNodeBs_from_config, project_and_add_net_offset_for_eNodeBs, assign_boundaries
+from src.v2x.enodeb import read_eNodeBs_from_config_file, project_and_add_net_offset_for_eNodeBs, assign_boundaries
 
 
 class MyTestCase(unittest.TestCase):
@@ -12,7 +12,7 @@ class MyTestCase(unittest.TestCase):
         eNodeB_mec_conf_file = '/home/chris/Documents/STUDIA/Praca_mgr/Symulacje/v2x-mec/bts/bts-mec-conf.json'
 
         net_offset, conv_bbox, orig_bbox, proj_params = extract_projection_details_from_net_file(sumo_net_file)
-        eNodeBs = read_eNodeBs_from_config(eNodeB_mec_conf_file)
+        eNodeBs = read_eNodeBs_from_config_file(eNodeB_mec_conf_file)
         project_and_add_net_offset_for_eNodeBs(eNodeBs, net_offset, proj_params)
         assign_boundaries(eNodeBs, conv_bbox)
 

@@ -1,15 +1,30 @@
-import itertools
 from typing import List
 import json
+import logging
 
-from src.models.v2x_models import eNodeB
+from shapely.geometry import MultiPoint, Point, box, Polygon
+from shapely.ops import voronoi_diagram
+
+from src.constants import DEFAULT_CONFIG_CONFIG_KEY, eNB_ID_CONFIG_KEY, eNB_LONGITUDE_CONFIG_KEY, eNB_LATITUDE_CONFIG_KEY, \
+    eNB_MEC_ID_CONFIG_KEY, DEFAULT_LOGGER_NAME
+from src.helpers.map_helpers import project_coords
 from src.models.map_time_models import Position2d, BoundaryBox
-from src.helpers.map_helpers import project_coords, create_boundary, create_boundary_line_end_points, get_distance, \
-    find_lines_crossing, is_in_bbox
+from src.models.v2x_models import eNodeB
 from src.sumo.net_file_parse import extract_projection_details_from_net_file
 
-from shapely.geometry import MultiPoint, Point, Polygon as Poly, box
-from shapely.ops import voronoi_diagram
+logger = logging.getLogger(DEFAULT_LOGGER_NAME)
+
+
+def extract_eNodeBs_and_create_ranges2(sumo_net_file: str, config: dict) -> List[eNodeB]:
+    logger.debug('Extracting eNodeBs')
+
+    net_offset, conv_bbox, orig_bbox, proj_params = extract_projection_details_from_net_file(sumo_net_file)
+    eNodeBs = read_eNodeBs_from_config_dict(config)
+    project_and_add_net_offset_for_eNodeBs(eNodeBs, net_offset, proj_params)
+    assign_boundaries(eNodeBs, conv_bbox)
+
+    return eNodeBs
+
 
 def extract_eNodeBs_and_create_ranges(sumo_net_file: str, eNodeB_mec_conf_file: str) -> List[eNodeB]:
     """
@@ -29,14 +44,28 @@ def extract_eNodeBs_and_create_ranges(sumo_net_file: str, eNodeB_mec_conf_file: 
     print('Extracting eNodeBs...')
 
     net_offset, conv_bbox, orig_bbox, proj_params = extract_projection_details_from_net_file(sumo_net_file)
-    eNodeBs = read_eNodeBs_from_config(eNodeB_mec_conf_file)
+    eNodeBs = read_eNodeBs_from_config_file(eNodeB_mec_conf_file)
     project_and_add_net_offset_for_eNodeBs(eNodeBs, net_offset, proj_params)
     assign_boundaries(eNodeBs, conv_bbox)
 
     return eNodeBs
 
 
-def read_eNodeBs_from_config(eNodeB_mec_conf_file: str) -> List[eNodeB]:
+def read_eNodeBs_from_config_dict(config: dict) -> List[eNodeB]:
+    eNodeBs: List[eNodeB] = []
+
+    for eNB_raw in config[DEFAULT_CONFIG_CONFIG_KEY]:
+        # TODO: data validation
+
+        eNB = eNodeB(id=eNB_raw[eNB_ID_CONFIG_KEY], x=eNB_raw[eNB_LONGITUDE_CONFIG_KEY],
+                     y=eNB_raw[eNB_LATITUDE_CONFIG_KEY], assigned_mec_id=eNB_raw[eNB_MEC_ID_CONFIG_KEY])
+
+        eNodeBs.append(eNB)
+
+    return eNodeBs
+
+
+def read_eNodeBs_from_config_file(eNodeB_mec_conf_file: str) -> List[eNodeB]:
     """Reads eNodeB_MEC configuration file and returns list of eNodeB objects. XYs are spatial coordinates.
 
     Args:
@@ -47,15 +76,8 @@ def read_eNodeBs_from_config(eNodeB_mec_conf_file: str) -> List[eNodeB]:
     """
     with open(eNodeB_mec_conf_file, 'r') as f:
         eNB_list = json.load(f)
-        
-    eNodeBs = []
-    for eNB_raw in eNB_list:
-        # TODO: data validation
-        
-        eNB = eNodeB(eNB_raw['eNB_id'], eNB_raw['longitude'], eNB_raw['latitude'], eNB_raw['mec_id'])
-        eNodeBs.append(eNB)
-    
-    return eNodeBs
+
+    return read_eNodeBs_from_config_dict(eNB_list)
 
 
 def project_and_add_net_offset_for_eNodeBs(eNodeBs: List[eNodeB], net_offset: List[float], proj_params: dict):
@@ -84,4 +106,14 @@ def assign_boundaries(eNodeBs: List[eNodeB], map_bbox: BoundaryBox):
                     _ = enb.boundary_points.pop()
 
     assert(all(map(lambda enb: len(enb.boundary_points) != 0 or enb.boundary_points is not None, eNodeBs)))
+
+
+def get_eNodeB_id_by_location(location: Position2d, eNodeBs: List[eNodeB]):
+
+    def mec_contains(enb: eNodeB, location: Position2d):
+        poly = Polygon(enb.boundary_points)
+        return poly.contains(Point(location.x, location.y))
+
+    return next(filter(lambda mec: mec_contains(mec, location), eNodeBs), None).Id
+
 

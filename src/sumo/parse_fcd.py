@@ -1,4 +1,5 @@
 import copyreg
+import logging
 import multiprocessing as mp
 from typing import List
 import time
@@ -7,6 +8,10 @@ from io import StringIO
 
 from lxml import etree
 from lxml.etree import XMLParser, parse
+from pandas import DataFrame
+
+from src.constants import DEFAULT_LOGGER_NAME
+from src.helpers.time_helpers import print_execution_time
 
 
 def element_unpickler(data):
@@ -32,8 +37,11 @@ def elementtree_pickler(tree):
 copyreg.pickle(etree._Element, element_pickler, element_unpickler)
 copyreg.pickle(etree._ElementTree, elementtree_pickler, elementtree_unpickler)
 
+logger = logging.getLogger(DEFAULT_LOGGER_NAME)
 
-def parse_fcd_data_parallel(fcd_file: str) -> List[List]:
+
+@print_execution_time
+def load_fcd_data_parallel(fcd_file: str) -> List[List]:
     """
     Reads contents of fcd xml file using MultiProcessing library and transforms to list of dicts for each
     car - time - location entry.
@@ -45,18 +53,14 @@ def parse_fcd_data_parallel(fcd_file: str) -> List[List]:
     fcd_data = xml_data.getroot()
 
     timesteps_count = len(fcd_data.getchildren())
-    print('All timesteps:', timesteps_count)
+    logger.debug('All timesteps in fcd file: %d', timesteps_count)
 
     pool = mp.Pool(mp.cpu_count())
 
-    # results = pool.map(parse_fcd_timestep, [timestep for timestep in fcd_data])
     results = pool.map(parse_fcd_timestep2, [timestep for timestep in fcd_data])
 
     pool.close()
     pool.join()
-
-    end_time = time.time()
-    print('time:', end_time - start_time)
 
     flatten_results = [item for sublist in results for item in sublist]
     return flatten_results

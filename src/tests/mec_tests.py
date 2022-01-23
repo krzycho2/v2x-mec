@@ -43,16 +43,10 @@ class MecTests(unittest.TestCase):
 
 def create_2_mecs():
     mec1 = Mec(1)
-    mec1.boundary_points.extend([Position2d(0, 0),
-                                 Position2d(0, 10),
-                                 Position2d(10, 10),
-                                 Position2d(10, 0)])
+    mec1.boundary_points = [(0, 0), (0, 10), (10, 10), (10, 0)]
 
     mec2 = Mec(2)
-    mec2.boundary_points.extend([Position2d(12, 12),
-                                 Position2d(12, 16),
-                                 Position2d(16, 16),
-                                 Position2d(16, 12)])
+    mec2.boundary_points = [(12, 12), (12, 16), (16, 16), (16, 12)]
 
     mecs = [mec1, mec2]
     return mecs

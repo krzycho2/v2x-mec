@@ -1,2 +1,0 @@
-
-POINT_GRID_DELTA = 10 # 

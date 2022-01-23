@@ -9,6 +9,7 @@ class Position2d:
         self.x = float(x)
         self.y = float(y)
 
+
 class BoundaryBox:
     x_min: float
     x_max: float

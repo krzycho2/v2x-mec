@@ -1,5 +1,4 @@
 from typing import List
-from shapely.geometry import Polygon
 
 from src.models.map_time_models import Position2d
 
@@ -29,17 +28,6 @@ class Uct:
             self.dest_mec_id = dest_mec_id
 
 
-class UctStats:
-    max_uct_freq: float
-    min_uct_freq: float
-    all_uct_count: int
-
-    def __init__(self, max_uct_freq: float = None, min_uct_freq: float = None, all_uct_count: int = None):
-        self.max_uct_freq = max_uct_freq
-        self.min_uct_freq = min_uct_freq
-        self.all_uct_count = all_uct_count
-
-
 class Mec:
     Id: int
     boundary_points: List[Position2d]
@@ -52,22 +40,16 @@ class Mec:
         self.included_eNodeBs = []
         self.ucts = []
 
-    # def include_eNodeB(self, enb: eNodeB):
-    #     "Incorporates eNodeB range to Mec boundary_points range."
-    #
-    #     if not self.boundary_points:
-    #         self.boundary_points = enb.boundary_points
-    #         self.included_eNodeBs.append(enb.Id)
-    #         return
-    #
-    #     current_boundary_polygon = Polygon(self.boundary_points)
-    #
-    #     enb_boundary_polygon = Polygon(enb.boundary_points)
-    #     current_boundary_polygon.union(enb_boundary_polygon)
-    #
-    #     self.boundary_points = list(current_boundary_polygon.boundary.coords)
-    #
-    #     if self.boundary_points[0] == self.boundary_points[-1]:
-    #         _ = self.boundary_points.pop()
-    #
-    #     self.included_eNodeBs.append(enb.Id)
+
+class UctStats:
+    run_id: int
+    max_uct_freq: float
+    min_uct_freq: float
+    all_uct_count: int
+    mecs_uct_stats: List[dict]
+
+    def __init__(self, max_uct_freq: float = None, min_uct_freq: float = None, all_uct_count: int = None):
+        self.max_uct_freq = max_uct_freq
+        self.min_uct_freq = min_uct_freq
+        self.all_uct_count = all_uct_count
+

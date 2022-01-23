@@ -152,13 +152,13 @@ def extract_car_time_locations2(car_time_location_items: List[dict]) -> List[Car
     return cars
 
 
-def extract_car_time_locations(car_time_location_items: List[dict]) -> List[CarInfo]:
+def extract_car_time_locations(car_time_location_items: List[List]) -> List[CarInfo]:
     cars: List[CarInfo] = []
     for car_time_location in car_time_location_items:
-        car_id = car_time_location['car_id']
-        time_stamp = car_time_location['time']
-        x = car_time_location['x']
-        y = car_time_location['y']
+        car_id = car_time_location[1]
+        time_stamp = car_time_location[0]
+        x = car_time_location[2]
+        y = car_time_location[3]
 
         time_location = TimeLocation(time_stamp, x, y)
 
