@@ -61,19 +61,36 @@ class UctCalc:
     @print_execution_time
     def retrieve_ucts(self, car_groups, mecs: List[Mec]):
         for group_name, car_group in car_groups:
-            car_group['is_uct'] = car_group['mec_id'] != car_group['mec_id'].shift()
+            car_group.sort_values('time_step', inplace=True)
+            car_group['is_uct'] = car_group['mec_id'].diff(periods=-1).astype('bool')
             uct_rows = car_group[car_group['is_uct'] == True]
-
-            index0 = car_group.index[0]
+            index_last = car_group.index[-1]
             for index, uct_row in uct_rows.iterrows():
                 time_step = uct_row['time_step']
 
-                if index == index0:
+                if index == index_last:
                     continue
 
                 mec = next(filter(lambda mec: mec.Id == uct_row['mec_id'], mecs), None)
-                uct = Uct(time=time_step)  # todo
-                mec.ucts.append(uct)
+
+                # uct = Uct(time_step)  # todo
+
+                mec.uct_times.append(time_step)
+
+        # for group_name, car_group in car_groups:
+        #     car_group['is_uct'] = car_group['mec_id'] != car_group['mec_id'].shift()
+        #     uct_rows = car_group[car_group['is_uct'] == True]
+        #
+        #     index0 = car_group.index[0]
+        #     for index, uct_row in uct_rows.iterrows():
+        #         time_step = uct_row['time_step']
+        #
+        #         if index == index0:
+        #             continue
+        #
+        #         mec = next(filter(lambda mec: mec.Id == uct_row['mec_id'], mecs), None)
+        #         uct = Uct(time=time_step)  # todo
+        #         mec.ucts.append(uct)
 
     def calculate_uct_stats(self, mecs: List[Mec]) -> UctStats:
         uct_stats = UctStats()
@@ -83,21 +100,21 @@ class UctCalc:
             mec_dict = {'mec_id': mec.Id,
                         'included_eNodeBs': mec.included_eNodeBs,
                         'uct_freq': self.get_uct_frequency_for_mec(mec),
-                        'uct_count': len(mec.ucts)}
+                        'uct_count': len(mec.uct_times)}
             uct_stats.mecs_uct_stats.append(mec_dict)
 
         uct_stats.max_uct_freq = max(map(lambda mec: self.get_uct_frequency_for_mec(mec), mecs))
         uct_stats.min_uct_freq = min(map(lambda mec: self.get_uct_frequency_for_mec(mec), mecs))
-        uct_stats.all_uct_count = sum(map(lambda mec: len(mec.ucts), mecs))
+        uct_stats.all_uct_count = sum(map(lambda mec: len(mec.uct_times), mecs))
 
         return uct_stats
 
     def get_uct_frequency_for_mec(self, mec: Mec):
-        if len(mec.ucts) in [0, 1]:
+        if len(mec.uct_times) in [0, 1]:
             return 0
 
-        max_time = max(map(lambda uct: uct.time, mec.ucts))
-        min_time = min(map(lambda uct: uct.time, mec.ucts))
+        max_time = max(mec.uct_times)
+        min_time = min(mec.uct_times)
         period = abs(max_time - min_time)
 
-        return len(mec.ucts) / period
+        return len(mec.uct_times) / period

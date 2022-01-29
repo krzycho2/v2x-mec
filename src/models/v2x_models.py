@@ -17,12 +17,12 @@ class eNodeB:
 
 
 class Uct:
-    time: float
+    time_step: float
     dest_mec_id: int
 
-    def __init__(self, time: float = None, dest_mec_id: int = None):
-        if time:
-            self.time = time
+    def __init__(self, time_step: float, dest_mec_id: int = None):
+        if time_step:
+            self.time_step = time_step
 
         if dest_mec_id:
             self.dest_mec_id = dest_mec_id
@@ -32,13 +32,14 @@ class Mec:
     Id: int
     boundary_points: List[Position2d]
     included_eNodeBs: List[int]
-    ucts: List[Uct]
+    # ucts: List[Uct]
+    uct_times: List[float]
 
     def __init__(self, mec_id: int) -> None:
         self.Id = mec_id
         self.boundary_points = []
         self.included_eNodeBs = []
-        self.ucts = []
+        self.uct_times: List[float] = []
 
 
 class UctStats:

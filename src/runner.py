@@ -7,7 +7,7 @@ from src.constants import DEFAULT_LOGGER_NAME, RUNS_CONFIG_KEY, RUN_ID_CONFIG_KE
 from src.helpers.drawing import save_sim_image
 from src.helpers.time_helpers import print_execution_time
 from src.models.v2x_models import eNodeB, UctStats
-from src.v2x.enodeb import extract_eNodeBs_and_create_ranges2
+from src.v2x.enodeb import extract_eNodeBs_and_create_ranges
 from src.v2x.mec import extract_mecs_with_ranges
 from src.v2x.uct import UctCalc
 
@@ -15,7 +15,7 @@ logger = logging.getLogger(DEFAULT_LOGGER_NAME)
 
 
 @print_execution_time
-def read_config_and_execute_runs(car_time_location_raw: List[List], net_file: str, eNodeB_mec_config_file: str):
+def read_config_and_execute_runs(car_time_locations_raw: List[List], net_file: str, eNodeB_mec_config_file: str):
     output_json_file = 'output.json'
     sim_image_file = 'sim_image.png'
 
@@ -26,7 +26,7 @@ def read_config_and_execute_runs(car_time_location_raw: List[List], net_file: st
         logger.error('No default config dict in config file')
         raise ValueError('No default config dict in config file')
 
-    eNodeBs = extract_eNodeBs_and_create_ranges2(net_file, config_data)
+    eNodeBs = extract_eNodeBs_and_create_ranges(net_file, config_data)
 
     global_stats = []
     uct_calc = UctCalc()
@@ -44,11 +44,11 @@ def read_config_and_execute_runs(car_time_location_raw: List[List], net_file: st
                 raise ValueError(f'No run_config for run_id: {run_id}')
 
             apply_run_config_to_eNodeBs(run[RUN_CONFIG_CONFIG_KEY], eNodeBs)
-            uct_stats = execute_run(uct_calc, run_id, car_time_location_raw, eNodeBs)
+            uct_stats = execute_run(uct_calc, run_id, car_time_locations_raw, eNodeBs)
             global_stats.append(uct_stats)
 
     else:
-        uct_stats = execute_run(uct_calc, 0, car_time_location_raw, eNodeBs)
+        uct_stats = execute_run(uct_calc, 0, car_time_locations_raw, eNodeBs)
         global_stats.append(uct_stats)
 
     save_results_to_json_file(global_stats, output_json_file)

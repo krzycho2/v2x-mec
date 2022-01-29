@@ -4,8 +4,9 @@ import multiprocessing as mp
 from typing import List
 import time
 from io import StringIO
-
-
+from itertools import repeat
+import xmltodict
+import xml.etree.ElementTree as ET
 from lxml import etree
 from lxml.etree import XMLParser, parse
 from pandas import DataFrame
@@ -83,5 +84,23 @@ def parse_fcd_timestep(timestep) -> List[dict]:
 
 def parse_fcd_timestep2(timestep) -> List[List]:
     time_stamp = timestep.get('time')
+    a = [[time_stamp, *raw_car_info.values()] for raw_car_info in timestep]
     return [[time_stamp, *raw_car_info.values()] for raw_car_info in timestep]
 
+
+@print_execution_time
+def load_fcd_data_parallel2(fcd_file):
+    xml_data = ET.parse(fcd_file)
+    fcd_data = xml_data.getroot()
+    pool = mp.Pool(mp.cpu_count())
+
+    car_time_locations = []
+    for timestep in fcd_data:
+        time_stamp = timestep.get('time')
+        car_time_locations.extend(pool.starmap(parse_vehicle, [(vehicle, time_stamp) for vehicle in timestep]))
+
+    return car_time_locations
+
+
+def parse_vehicle(vehicle, time_stamp):
+    return [time_stamp, vehicle.get('id'), vehicle.get('x'), vehicle.get('y')]

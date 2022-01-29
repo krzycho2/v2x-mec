@@ -23,8 +23,7 @@ def extract_mecs_with_ranges(eNodeBs: List[eNodeB]) -> List[Mec]:
     """
 
     logger.info('Extracting MECs')
-    mecs: List[Mec] = []
-    [mecs.append(Mec(mec_id)) for mec_id in set(map(lambda enb: enb.assigned_mec_id, eNodeBs))]
+    mecs = [Mec(mec_id) for mec_id in set(map(lambda enb: enb.assigned_mec_id, eNodeBs))]
 
     for mec in mecs:
         mec_eNodeBs = list(filter(lambda enb: enb.assigned_mec_id == mec.Id, eNodeBs))
